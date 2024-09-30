@@ -19,7 +19,7 @@ export default function Home(){
       window.location.href = "/"
     } 
     else {
-      setError("something went wrong")
+      setError("No account with that email")
     }
   }
 
