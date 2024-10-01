@@ -38,7 +38,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String   @unique
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now())
@@ -81,14 +81,13 @@ model Room {
 
 model Booking {
   id            Int     @id @default(autoincrement())
-  userId        String
-  User          User    @relation(fields: [userId], references: [id])
+  userEmail     String
+  User          User    @relation(fields: [userEmail], references: [email])
   roomId        Int
   Room          Room    @relation(fields: [roomId], references: [id])
   bookDate      String
-  bookStart     String
-  bookEnd       String
+  bookTime      String
   price         Float?
 
-  @@unique([bookDate, bookStart, bookEnd])
+  @@unique([bookDate, bookTime])
 } 

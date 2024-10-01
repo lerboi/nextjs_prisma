@@ -49,6 +49,7 @@ export default function Home(){
         <DisplayRoomTypes roomTypes={roomTypes} />
       )}
     </div>
+    
     </>
   )
 }
