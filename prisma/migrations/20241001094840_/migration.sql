@@ -15,5 +15,3 @@ ALTER TABLE `booking` DROP COLUMN `bookEnd`,
     DROP COLUMN `bookStart`,
     ADD COLUMN `bookTime` VARCHAR(191) NOT NULL;
 
--- CreateIndex
-CREATE UNIQUE INDEX `Booking_bookDate_bookTime_key` ON `Booking`(`bookDate`, `bookTime`);

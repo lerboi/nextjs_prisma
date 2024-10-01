@@ -86,8 +86,6 @@ model Booking {
   roomId        Int
   Room          Room    @relation(fields: [roomId], references: [id])
   bookDate      String
-  bookTime      String
+  bookTime      Json
   price         Float?
-
-  @@unique([bookDate, bookTime])
 } 

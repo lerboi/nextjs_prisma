@@ -21,7 +21,6 @@ export const authOptions = {
                     user = {
                         email: credentials.email
                     }
-                    console.log(user)
                     return user
                 }
                 else{

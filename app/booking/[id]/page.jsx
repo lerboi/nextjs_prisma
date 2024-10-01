@@ -100,7 +100,7 @@ export default function Booking({ params }){
             },
             body: JSON.stringify({
                 date: date,
-                totalTime: totalTime.join(","),
+                totalTime: totalTime,
                 selectedRoom: selectedRoom,
                 email: session.user.email
             })
