@@ -6,7 +6,14 @@ export async function GET(request, {params}){
     console.log(email)
     const bookings = await prisma.booking.findMany({
         where: {
-            userEmail: email
+            userEmail: email,
+        },
+        include: {
+            Room: {
+                include: {
+                    roomType: true
+                }
+            }
         }
     })
     if(bookings){

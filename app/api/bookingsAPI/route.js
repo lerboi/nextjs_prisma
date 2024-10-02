@@ -11,10 +11,12 @@ export async function POST(req){
             userEmail: email,
             bookTime: {
                 array_contains: totalTime
-            }
+            },
+            bookDate: date,
+            roomId: selectedRoom
         }
     })
-    if(!dupeEntries){
+    if(!dupeEntries.length >= 1){
         const newBooking = await prisma.booking.create({
             data:{
                 bookDate: date,
@@ -26,7 +28,7 @@ export async function POST(req){
         return NextResponse.json(newBooking, {status: 200})
     }
     else{
-        return NextResponse.json({message: "Something went wrong"}, {status:401})
+       return NextResponse.json({message: "Something went wrong"}, {status: 401})
     }
 
     return NextResponse.json({message:"error"}, {status: 401})

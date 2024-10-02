@@ -8,8 +8,32 @@ export default function Home(){
   const [roomTypes, setRoomTypes] = useState(null)
   const {data: session, status} = useSession()
   const [bookings, setBookings] = useState(null)
-  //fetch roomTypes
+
+  //fetch/generate roomTypes
   useEffect(() => {
+    async function handleRoomTypes(){
+      await generateRoomTypes()
+      await getRoomTypes()
+    }
+
+    async function generateRoomTypes(){
+      const response = await fetch("/api/generateRoomTypesAPI/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      if(response.ok){
+        const rooms = await response.json()
+        if(rooms.roomTypes){
+          console.log("Room records Created")
+        }
+        console.log("Creating records failed")
+      }
+      else{
+        console.log("Creating records failed")
+      }
+    }
     async function getRoomTypes(){
       const response = await fetch("/api/getRoomTypesAPI/", {
         method: "GET",
@@ -27,7 +51,8 @@ export default function Home(){
         setRoomTypes(null)
       }
     }
-    getRoomTypes()
+    
+    handleRoomTypes()
   }, [])
 
   //fetch bookings
@@ -59,8 +84,12 @@ export default function Home(){
   return(
     <>
     <div className="flex m-5 gap-6">
-      <button className="p-2 outline outline-white"><Link href="/authentication/signInPage">Sign In</Link></button>
-      <button className="p-2 outline outline-white"><Link href="/authentication/registerPage">Register</Link></button>
+      {!session && (
+        <>
+        <button className="p-2 outline outline-white"><Link href="/authentication/signInPage">Sign In</Link></button>
+        <button className="p-2 outline outline-white"><Link href="/authentication/registerPage">Register</Link></button>
+        </>
+      )}
       <button onClick={() => signOut()} className="p-2 outline outline-white hover:cursor-pointer">Sign Out</button>
     </div>
     <div>
@@ -77,14 +106,18 @@ export default function Home(){
     </div>
     <div>
       {bookings? 
-      <p>{bookings.map(booking => {
+      <>
+      <h1 className="underline mt-5">Bookings</h1>
+      {bookings.map(booking => {
         return (
-          <div className="flex gap-3 border-b-2 border-b-white w-[50%] mt-4">
-          <p>{booking.bookDate}</p>
-          <p>{booking.bookTime}</p>
+          <div key={booking.id} className="flex gap-3 border-b-2 border-b-white w-[50%] mt-4">
+            <p>{booking.Room.roomType.name}</p> 
+            <p>{booking.bookDate}</p>
+            <p>{booking.bookTime[0] + " - " + booking.bookTime[booking.bookTime.length-1]}</p>
           </div>
         )
-      })}</p>
+      })}
+      </>
       :
       <p>No bookings</p>}
     </div>
